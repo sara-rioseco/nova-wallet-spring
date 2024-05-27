@@ -14,9 +14,10 @@ import java.util.List;
 public interface AccountRepository {
 
     int save(@NonNull Account account);
-    int update(AccountEntity account, int id);
+    int update(Account account, int id);
     int delete(int id);
     AccountEntity getById(int id);
+    AccountEntity getByOwnerId(int ownerId);
     List<AccountEntity> getAll();
 
 }

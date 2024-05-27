@@ -9,8 +9,6 @@ import com.bootcamp.novawalletspring.model.TransactionType;
 import com.bootcamp.novawalletspring.repository.impl.CurrencyRepositoryImpl;
 import com.bootcamp.novawalletspring.repository.impl.UserRepositoryImpl;
 import com.bootcamp.novawalletspring.service.AccountService;
-import com.bootcamp.novawalletspring.service.CurrencyService;
-import com.bootcamp.novawalletspring.service.UserService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +62,8 @@ public class AccountServiceImpl implements AccountService {
             }
             if((type == transfer && !ownerUser)|| type == deposit) {
                 account.addBalance(amount);
-            return accountRepository.update(account);
+            }
+            return accountRepository.update(account, id) > 0;
         } else {
             System.out.println("Error updating balance");
             return false;
@@ -73,8 +72,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean deleteAccount(int id) {
-        if (accountRepository.getAccountById(id) != null) {
-            return accountRepository.deleteAccount(id);
+        if (accountRepository.getById(id) != null) {
+            return accountRepository.delete(id) > 0;
         } else {
             System.out.println("Error deleting account");
             return false;
@@ -82,17 +81,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> getAccountsByOwnerId(int id) {
-        return accountRepository.getAccountsByOwnerId(id);
+    public Account getAccountByOwnerId(int id) {
+        return new Account(accountRepository.getByOwnerId(id));
     }
 
     @Override
     public List<Account> getAllAccounts() {
         List<AccountEntity> accounts = accountRepository.getAll();
+        List<Account> result = new ArrayList<>();
         for (AccountEntity account : accounts) {
-
+            result.add(new Account(account));
         }
-
-        return
+        return result;
     }
 }

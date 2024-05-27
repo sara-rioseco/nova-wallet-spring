@@ -23,7 +23,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public int update(AccountEntity account, int id) {
+    public int update(Account account, int id) {
         return 0;
     }
 
@@ -34,6 +34,11 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public AccountEntity getById(int id) {
+        return null;
+    }
+
+    @Override
+    public AccountEntity getByOwnerId(int ownerId) {
         return null;
     }
 

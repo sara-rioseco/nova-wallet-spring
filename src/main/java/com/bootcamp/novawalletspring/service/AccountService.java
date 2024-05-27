@@ -11,6 +11,6 @@ public interface AccountService {
     Account getAccountById(int id);
     boolean updateBalance(int id, BigDecimal amount, TransactionType type, boolean ownerUser);
     boolean deleteAccount(int id);
-    List<Account> getAccountsByOwnerId(int id);
+    Account getAccountByOwnerId(int id);
     List<Account> getAllAccounts();
 }
