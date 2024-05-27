@@ -64,7 +64,6 @@ public class AccountServiceImpl implements AccountService {
             }
             if((type == transfer && !ownerUser)|| type == deposit) {
                 account.addBalance(amount);
-            }
             return accountRepository.update(account);
         } else {
             System.out.println("Error updating balance");
