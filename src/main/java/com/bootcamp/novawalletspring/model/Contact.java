@@ -1,8 +1,12 @@
 package com.bootcamp.novawalletspring.model;
 
+import com.bootcamp.novawalletspring.entity.ContactEntity;
+import lombok.Data;
+
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@Data
 public class Contact {
     private int id;
     private String firstName;
@@ -24,6 +28,12 @@ public class Contact {
 
     public Contact(String firstName, String email, int contactUserId, int ownerUserId) {
         this(0, firstName, null, email, contactUserId, ownerUserId, Timestamp.from(Instant.now()));
+    }
+
+    public Contact(ContactEntity contact) {
+        this(contact.getId(), contact.getFirstName(), contact.getLastName(), contact.getEmail(),
+             contact.getContactUserId().getId(), contact.getOwnerUserId().getId(),
+             Timestamp.from(contact.getCreationDate()));
     }
 
 

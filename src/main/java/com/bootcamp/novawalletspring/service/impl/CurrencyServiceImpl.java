@@ -1,22 +1,22 @@
 package com.bootcamp.novawalletspring.service.impl;
 
-import com.bootcamp.novawalletspring.repository.CurrencyRepository;
+import com.bootcamp.novawalletspring.entity.CurrencyEntity;
 import com.bootcamp.novawalletspring.model.Currency;
+import com.bootcamp.novawalletspring.repository.CurrencyRepository;
 import com.bootcamp.novawalletspring.service.CurrencyService;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @CommonsLog
 public class CurrencyServiceImpl implements CurrencyService {
 
-    private final CurrencyRepository currencyRepository;
-
-    public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
-        this.currencyRepository = currencyRepository;
-    }
+    @Autowired
+    CurrencyRepository currencyRepository;
 
     @Override
     public boolean createCurrency(Currency currency) {
@@ -26,8 +26,8 @@ public class CurrencyServiceImpl implements CurrencyService {
                 && currency.getSymbol() !=null
                 && currency.getSymbol().length() == 3
                 && !currency.getSymbol().isBlank()
-                && currencyRepository.getCurrencyBySymbol(currency.getSymbol()) == null) {
-            return currencyRepository.addCurrency(currency);
+                && currencyRepository.getBySymbol(currency.getSymbol()) == null) {
+            return currencyRepository.save(currency) > 0;
         } else {
             System.out.println("Error creating currency");
             return false;
@@ -36,7 +36,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public Currency getCurrencyById(int id) {
-        return currencyRepository.getCurrencyById(id);
+        return new Currency(currencyRepository.getById(id));
     }
 
     @Override
@@ -47,8 +47,8 @@ public class CurrencyServiceImpl implements CurrencyService {
                 && currency.getSymbol() !=null
                 && currency.getSymbol().length() == 3
                 && !currency.getSymbol().isBlank()
-                && currencyRepository.getCurrencyById(currency.getId()) != null) {
-            return currencyRepository.updateCurrency(currency);
+                && currencyRepository.getById(currency.getId()) != null) {
+            return currencyRepository.update(currency, currency.getId()) > 0;
         } else {
             System.out.println("Error updating currency");
             return false;
@@ -57,8 +57,8 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public boolean deleteCurrency(int id) {
-        if (currencyRepository.getCurrencyById(id) != null) {
-            return currencyRepository.deleteCurrency(id);
+        if (currencyRepository.getById(id) != null) {
+            return currencyRepository.delete(id) > 0;
         } else {
             System.out.println("Error deleting currency");
             return false;
@@ -67,6 +67,11 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public List<Currency> getAllCurrencies() {
-        return currencyRepository.getAllCurrencies();
+        List<CurrencyEntity> currencies = currencyRepository.getAll();
+        List<Currency> result = new ArrayList<>();
+        for (CurrencyEntity currency : currencies) {
+            result.add(new Currency(currency));
+        }
+        return result;
     }
 }

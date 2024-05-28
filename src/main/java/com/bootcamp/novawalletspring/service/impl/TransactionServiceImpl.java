@@ -1,19 +1,18 @@
 package com.bootcamp.novawalletspring.service.impl;
 
+import com.bootcamp.novawalletspring.entity.TransactionEntity;
+import com.bootcamp.novawalletspring.model.Transaction;
 import com.bootcamp.novawalletspring.repository.AccountRepository;
 import com.bootcamp.novawalletspring.repository.CurrencyRepository;
 import com.bootcamp.novawalletspring.repository.TransactionRepository;
 import com.bootcamp.novawalletspring.repository.UserRepository;
-import com.bootcamp.novawalletspring.repository.impl.AccountRepositoryImpl;
-import com.bootcamp.novawalletspring.repository.impl.CurrencyRepositoryImpl;
-import com.bootcamp.novawalletspring.repository.impl.UserRepositoryImpl;
-import com.bootcamp.novawalletspring.model.Transaction;
 import com.bootcamp.novawalletspring.service.TransactionService;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootcamp.novawalletspring.model.TransactionType.*;
@@ -22,29 +21,32 @@ import static com.bootcamp.novawalletspring.model.TransactionType.*;
 @CommonsLog
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionRepository transactionRepository;
+    @Autowired
+    TransactionRepository transactionRepository;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    CurrencyRepository currencyRepository;
 
     @Override
     public boolean createTransaction(Transaction transaction) {
-        UserRepository userRepository = new UserRepositoryImpl();
-        AccountRepository accountRepository = new AccountRepositoryImpl();
-        CurrencyRepository currencyRepository = new CurrencyRepositoryImpl();
         if (transaction != null
                 && transaction.getAmount().compareTo(BigDecimal.ZERO) > 0
                 && transaction.getTransactionType() != null
                 && (transaction.getTransactionType() == deposit
                     || transaction.getTransactionType() == transfer
                     || transaction.getTransactionType() == withdrawal)
-                && currencyRepository.getCurrencyById(transaction.getCurrencyId()) != null
-                && userRepository.getUserById(transaction.getSenderUserId()) != null
-                && accountRepository.getAccountById(transaction.getSenderAccountId()) != null
-                && userRepository.getUserById(transaction.getReceiverUserId()) != null
-                && accountRepository.getAccountById(transaction.getReceiverAccountId()) != null) {
-            return transactionRepository.addTransaction(transaction);
+                && currencyRepository.getById(transaction.getCurrencyId()) != null
+                && userRepository.getById(transaction.getSenderUserId()) != null
+                && accountRepository.getById(transaction.getSenderAccountId()) != null
+                && userRepository.getById(transaction.getReceiverUserId()) != null
+                && accountRepository.getById(transaction.getReceiverAccountId()) != null) {
+            return transactionRepository.save(transaction) > 0;
         } else {
             System.out.println("Error creating transaction");
             return false;
@@ -53,16 +55,26 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction getTransactionById(int id) {
-        return transactionRepository.getTransactionById(id);
+        return new Transaction(transactionRepository.getById(id));
     }
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return transactionRepository.getAllTransactions();
+        List<TransactionEntity> transactions = transactionRepository.getAll();
+        List<Transaction> result = new ArrayList<>();
+        for (TransactionEntity transaction : transactions) {
+            result.add(new Transaction(transaction));
+        }
+        return result;
     }
 
     @Override
     public List<Transaction> getTransactionsByUserId(int userId) {
-        return transactionRepository.getTransactionsByUserId(userId);
+        List<TransactionEntity> transactions = transactionRepository.getAllByUserId(userId);
+        List<Transaction> result = new ArrayList<>();
+        for (TransactionEntity transaction : transactions) {
+            result.add(new Transaction(transaction));
+        }
+        return result;
     }
 }

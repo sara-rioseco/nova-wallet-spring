@@ -6,10 +6,9 @@ import com.bootcamp.novawalletspring.repository.CurrencyRepository;
 import com.bootcamp.novawalletspring.repository.UserRepository;
 import com.bootcamp.novawalletspring.model.Account;
 import com.bootcamp.novawalletspring.model.TransactionType;
-import com.bootcamp.novawalletspring.repository.impl.CurrencyRepositoryImpl;
-import com.bootcamp.novawalletspring.repository.impl.UserRepositoryImpl;
 import com.bootcamp.novawalletspring.service.AccountService;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,16 +21,17 @@ import static com.bootcamp.novawalletspring.model.TransactionType.*;
 @CommonsLog
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CurrencyRepository currencyRepository;
 
     @Override
     public boolean createAccount(Account account) {
-        UserRepository userRepository = new UserRepositoryImpl();
-        CurrencyRepository currencyRepository = new CurrencyRepositoryImpl();
         if (account != null
                 && account.getOwnerId() > 0
                 && userRepository.findById(account.getOwnerId()).isPresent()
