@@ -41,7 +41,7 @@ public class Transaction {
     }
 
     public Transaction(TransactionEntity tr) {
-        this(tr.getId(), new BigDecimal(tr.getAmount()), tr.getCurrencyId().getId(), TransactionType.valueOf(tr.getTransactionType()), tr.getSenderUserId().getId(),
+        this(tr.getId(), new BigDecimal(tr.getAmount()), tr.getCurrencyId().getId(), tr.getTransactionType(), tr.getSenderUserId().getId(),
                 tr.getSenderAccountId().getId(), tr.getReceiverUserId().getId(), tr.getReceiverAccountId().getId(), Timestamp.from(tr.getCreationDate()));
     }
 

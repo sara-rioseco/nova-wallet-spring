@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
@@ -25,7 +26,7 @@ public class AccountEntity {
 
     @ColumnDefault("0")
     @Column(name = "balance", nullable = false)
-    private Integer balance;
+    private BigDecimal balance;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "creation_date", nullable = false)

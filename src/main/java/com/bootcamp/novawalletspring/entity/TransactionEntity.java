@@ -1,5 +1,6 @@
 package com.bootcamp.novawalletspring.entity;
 
+import com.bootcamp.novawalletspring.model.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
@@ -24,7 +25,7 @@ public class TransactionEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false, length = 20)
-    private String transactionType;
+    private TransactionType transactionType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_user_id", nullable = false)

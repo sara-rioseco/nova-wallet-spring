@@ -12,8 +12,8 @@
           content="An e-wallet that allows the user to manage, transfer and deposit money in a convenient and easy way.">
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
     <title>NovaWallet</title>
-    <script type="module" crossorigin="" src="../../resources/js/app.js"></script>
-    <link rel="stylesheet" crossorigin="" href="../../resources/css/style.css" type="text/css">
+    <script type="module" crossorigin="" src="${pageContext.request.contextPath}/src/main/webapp/resources/js/app.js"></script>
+    <link href="${pageContext.request.contextPath}/src/main/webapp/resources/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 
 <body>

@@ -28,31 +28,7 @@ public class Account {
     }
 
     public Account(AccountEntity account){
-        this(account.getId(), account.getOwnerId().getId(), account.getCurrencyId().getId(), new BigDecimal(account.getBalance()), Timestamp.from(account.getCreationDate()));
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getOwnerId() {
-        return ownerId;
-    }
-
-    public int getCurrencyId() {
-        return currencyId;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+        this(account.getId(), account.getOwnerId().getId(), account.getCurrencyId().getId(), account.getBalance(), Timestamp.from(account.getCreationDate()));
     }
 
     public void addBalance(BigDecimal amount) {
@@ -63,7 +39,4 @@ public class Account {
         this.balance = this.balance.subtract(amount);
     }
 
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
 }
