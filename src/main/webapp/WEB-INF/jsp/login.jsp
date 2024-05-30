@@ -10,16 +10,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1">
     <meta name="description"
           content="An e-wallet that allows the user to manage, transfer and deposit money in a convenient and easy way.">
-    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
     <title>NovaWallet</title>
-    <script type="module" crossorigin="" src="${pageContext.request.contextPath}/src/main/webapp/resources/js/app.js"></script>
-    <link href="${pageContext.request.contextPath}/src/main/webapp/resources/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script type="module" crossorigin="" src="${pageContext.request.contextPath}/app.js"></script>
+    <link rel="stylesheet" crossorigin="" href="${pageContext.request.contextPath}/style.css" type="text/css">
 </head>
 
 <body>
 <div id="root" class="root">
     <div class="login-wrapper">
-        <form class="login-content-wrapper" method="post" action="#"><h1>Nova<span>Wallet</span></h1>
+        <form class="login-content-wrapper" method="post" action="/login"><h1>Nova<span>Wallet</span></h1>
             <div class="input-wrapper visually-hidden" hidden="">
                 <input class="input input-text" type="text"
                        id="login-username" autocomplete="new-password"

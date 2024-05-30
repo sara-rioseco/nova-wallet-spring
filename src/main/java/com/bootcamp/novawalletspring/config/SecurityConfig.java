@@ -6,8 +6,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -17,7 +20,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
 
-        String[] matchers = new String[] {"/public/**","/api/**", "**.ico", "**.css", "**.js", "**.woff2", "**.svg"};
+        String[] matchers = new String[] {"/login", "/signup", "/public/**","/api/**", "**.js", "**.css", "img/**", "fonts/**", "**.ico"};
         return http
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(matchers).permitAll())
@@ -35,12 +38,12 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/home")
                                 .permitAll()
                 )
-                .logout(logout-> logout.permitAll())
-                .csrf(csrf-> csrf.disable())
+                .logout(LogoutConfigurer::permitAll)
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean
