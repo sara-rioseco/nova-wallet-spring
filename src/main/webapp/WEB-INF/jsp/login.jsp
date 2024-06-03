@@ -19,7 +19,7 @@
 <body>
 <div id="root" class="root">
     <div class="login-wrapper">
-        <form class="login-content-wrapper" method="post" action="/login"><h1>Nova<span>Wallet</span></h1>
+        <form class="login-content-wrapper" method="post" action="#"><h1>Nova<span>Wallet</span></h1>
             <div class="input-wrapper visually-hidden" hidden="">
                 <input class="input input-text" type="text"
                        id="login-username" autocomplete="new-password"
@@ -38,7 +38,7 @@
                     your Password</label></div>
             <input type="submit" class="button" id="button-login" value="Login" />
             <p class="login-text">Don't have an account?
-                <span><a href="signup.jsp">Sign up here.</a></span></p>
+                <span><a href="signup">Sign up here.</a></span></p>
             <dialog class="modal msg-modal">
                 <div class="wrapper dialog-wrapper"><h3 class="title">Error</h3>
                     <p>Invalid credentials</p>

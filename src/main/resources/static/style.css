@@ -156,7 +156,7 @@ body::before {
   position: fixed;
   left: 0;
   bottom: 0;
-  content: url(../../resources/static/img/wave1.svg);
+  content: url(../img/wave1.svg);
   width: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -178,7 +178,7 @@ div.root::after {
   position: fixed;
   left: 0;
   bottom: 0;
-  content: url(../resources/img/wave0.svg);
+  content: url(../img/wave0.svg);
   width: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -190,7 +190,7 @@ div.root::before {
   position: fixed;
   left: 0;
   bottom: 0;
-  content: url(../resources/img/wave2.svg);
+  content: url(../img/wave2.svg);
   width: 100vw;
   background-repeat: no-repeat;
   background-attachment: fixed;

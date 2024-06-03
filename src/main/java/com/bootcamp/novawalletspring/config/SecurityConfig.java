@@ -20,7 +20,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
 
-        String[] matchers = new String[] {"/login", "/signup", "/public/**","/api/**", "**.js", "**.css", "img/**", "fonts/**", "**.ico"};
+        String[] matchers = new String[] {"/login", "/signup", "/public/**","/api/**", "**.js", "**.css", "img/**.svg", "fonts/**", "**.ico"};
         return http
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(matchers).permitAll())
