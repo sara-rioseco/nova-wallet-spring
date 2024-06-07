@@ -23,17 +23,17 @@
             <div class="input-wrapper visually-hidden" hidden="">
                 <input class="input input-text" type="text"
                        id="login-username" autocomplete="new-password"
-                       placeholder=" " name="username">
+                       placeholder=" " name="name">
                 <label class="label input-label" for="login-username">Enter your username</label>
             </div>
             <div class="input-wrapper">
                 <input class="input input-text" type="search" id="login-email"
-                       autocomplete="new-password" placeholder=" " name="mail" required>
+                       autocomplete="new-password" placeholder=" " name="username" required>
                 <label class="label input-label" for="login-email">Enter your Email</label>
             </div>
             <div class="input-wrapper">
                 <input class="input input-text" type="password" id="login-password"
-                       autocomplete="new-password" placeholder=" " name="pass" required>
+                       autocomplete="new-password" placeholder=" " name="password" required>
                 <label class="label input-label" for="login-password">Enter
                     your Password</label></div>
             <input type="submit" class="button" id="button-login" value="Login" />

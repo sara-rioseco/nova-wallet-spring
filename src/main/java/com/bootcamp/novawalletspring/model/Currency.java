@@ -1,6 +1,5 @@
 package com.bootcamp.novawalletspring.model;
 
-import com.bootcamp.novawalletspring.entity.CurrencyEntity;
 import lombok.Data;
 
 @Data
@@ -19,7 +18,7 @@ public class Currency {
         this(0, name, symbol);
     }
 
-    public Currency(CurrencyEntity currency) {
+    public Currency(Currency currency) {
         this(currency.getId(), currency.getName(), currency.getSymbol());
     }
 

@@ -1,6 +1,5 @@
 package com.bootcamp.novawalletspring.model;
 
-import com.bootcamp.novawalletspring.entity.UserEntity;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -28,8 +27,8 @@ public class User {
     public User(String firstName, String lastName, String email, String password) {
         this(0, firstName, lastName, email, password, Timestamp.from(Instant.now()));
     }
-    public User(UserEntity user) {
-        this(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), Timestamp.from(user.getCreationDate()));
+    public User(User user) {
+        this(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getCreationDate());
     }
 
     public int getId() {

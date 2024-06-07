@@ -1,12 +1,12 @@
 START transaction;
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE SCHEMA nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE nova_wallet;
 
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON nova_wallet.* TO 'user'@'localhost';
-FLUSH PRIVILEGES;
+-- CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+-- GRANT ALL PRIVILEGES ON nova_wallet.* TO 'user'@'localhost';
+-- FLUSH PRIVILEGES;
 
 CREATE TABLE currencies(
                            id INT PRIMARY KEY AUTO_INCREMENT,
@@ -20,7 +20,8 @@ CREATE TABLE users(
                       last_name VARCHAR(50) NOT NULL,
                       email VARCHAR(50) NOT NULL UNIQUE,
                       password VARCHAR(60) NOT NULL,
-                      creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                      role VARCHAR(15) NOT NULL,
+                      creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Create unique index on users' id and email
@@ -31,7 +32,7 @@ CREATE TABLE accounts(
                          owner_id INT NOT NULL,
                          currency_id INT NOT NULL,
                          balance INT NOT NULL DEFAULT 0,
-                         creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          FOREIGN KEY(owner_id) REFERENCES users(id),
                          FOREIGN KEY(currency_id) REFERENCES currencies(id)
 )  ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -46,7 +47,7 @@ CREATE TABLE contacts(
                          email VARCHAR(50) NOT NULL,
                          contact_user_id INT NOT NULL,
                          owner_user_id INT NOT NULL,
-                         creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          FOREIGN KEY(contact_user_id) REFERENCES users(id),
                          FOREIGN KEY(owner_user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -63,7 +64,7 @@ CREATE TABLE transactions(
                              sender_account_id INT NOT NULL,
                              receiver_user_id INT NOT NULL,
                              receiver_account_id INT NOT NULL,
-                             creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                              FOREIGN KEY(sender_user_id) REFERENCES users(id),
                              FOREIGN KEY(sender_account_id) REFERENCES accounts(id),
                              FOREIGN KEY(receiver_user_id) REFERENCES users(id),
@@ -82,21 +83,21 @@ VALUES
     ('Euros', 'EUR');
 
 -- Insert users
-INSERT INTO nova_wallet.users(first_name, last_name, email, password, creation_date)
+INSERT INTO nova_wallet.users(first_name, last_name, email, password, role, creation_date)
 VALUES
-    ('Pepito', 'Perez', 'pepito@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Fulanito', 'Perez', 'fulano@mail.com', '$2a$10$F93Pzfdzcd7msk62EKkv7u9VpNcNNrTnwFyJvegLj6f5P5MVJkVb2', NOW()),
-    ('Natalia', 'Rojas', 'naty@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Juan', 'Durán', 'jduran@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('María', 'Perez', 'mperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Luffy', 'Monkey D', 'luffy@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Diego', 'Gonzalez', 'diego@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Matías', 'Lillo', 'mlillo@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Carlos', 'Gomez', 'carlos@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Andrea', 'Perez', 'aperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Rodrigo', 'Martinez', 'rmartinez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Marta', 'Gajardo', 'mgajardo@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW()),
-    ('Pedro', 'Perez', 'pperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', NOW());
+    ('Pepito', 'Perez', 'pepito@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_ADMIN', NOW()),
+    ('Fulanito', 'Perez', 'fulano@mail.com', '$2a$10$F93Pzfdzcd7msk62EKkv7u9VpNcNNrTnwFyJvegLj6f5P5MVJkVb2', 'ROLE_USER', NOW()),
+    ('Natalia', 'Rojas', 'naty@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Juan', 'Durán', 'jduran@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('María', 'Perez', 'mperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Luffy', 'Monkey D', 'luffy@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Diego', 'Gonzalez', 'diego@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Matías', 'Lillo', 'mlillo@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Carlos', 'Gomez', 'carlos@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Andrea', 'Perez', 'aperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Rodrigo', 'Martinez', 'rmartinez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Marta', 'Gajardo', 'mgajardo@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW()),
+    ('Pedro', 'Perez', 'pperez@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_USER', NOW());
 
 -- Insert accounts
 INSERT INTO nova_wallet.accounts(owner_id, balance, currency_id, creation_date)

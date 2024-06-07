@@ -2,17 +2,18 @@ package com.bootcamp.novawalletspring.entity;
 
 import com.bootcamp.novawalletspring.model.TransactionType;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name ="transactions")
-public class TransactionEntity {
+@Table(name = "transactions")
+public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -21,29 +22,30 @@ public class TransactionEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "currency_id", nullable = false)
-    private CurrencyEntity currencyId;
+    private Currency currency;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_user_id", nullable = false)
-    private UserEntity senderUserId;
+    private User senderUser;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_account_id", nullable = false)
-    private AccountEntity senderAccountId;
+    private Account senderAccount;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receiver_user_id", nullable = false)
-    private UserEntity receiverUserId;
+    private User receiverUser;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receiver_account_id", nullable = false)
-    private AccountEntity receiverAccountId;
+    private Account receiverAccount;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false)
     private Instant creationDate;
 

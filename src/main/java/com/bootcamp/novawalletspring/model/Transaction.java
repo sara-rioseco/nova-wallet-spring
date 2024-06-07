@@ -1,6 +1,5 @@
 package com.bootcamp.novawalletspring.model;
 
-import com.bootcamp.novawalletspring.entity.TransactionEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -40,9 +39,9 @@ public class Transaction {
                 receiverUserId, receiverAccountId, Timestamp.from(Instant.now()));
     }
 
-    public Transaction(TransactionEntity tr) {
-        this(tr.getId(), new BigDecimal(tr.getAmount()), tr.getCurrencyId().getId(), tr.getTransactionType(), tr.getSenderUserId().getId(),
-                tr.getSenderAccountId().getId(), tr.getReceiverUserId().getId(), tr.getReceiverAccountId().getId(), Timestamp.from(tr.getCreationDate()));
+    public Transaction(Transaction tr) {
+        this(tr.getId(), tr.getAmount(), tr.getCurrencyId(), tr.getTransactionType(), tr.getSenderUserId(),
+                tr.getSenderAccountId(), tr.getReceiverUserId(), tr.getReceiverAccountId(), tr.getCreationDate());
     }
 
     public int getId() {

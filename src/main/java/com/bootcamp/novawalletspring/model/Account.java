@@ -1,6 +1,5 @@
 package com.bootcamp.novawalletspring.model;
 
-import com.bootcamp.novawalletspring.entity.AccountEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -27,8 +26,8 @@ public class Account {
         this(0, ownerId, currencyId, new BigDecimal(0), Timestamp.from(Instant.now()));
     }
 
-    public Account(AccountEntity account){
-        this(account.getId(), account.getOwnerId().getId(), account.getCurrencyId().getId(), account.getBalance(), Timestamp.from(account.getCreationDate()));
+    public Account(Account account){
+        this(account.getId(), account.getOwnerId(), account.getCurrencyId(), account.getBalance(), account.getCreationDate());
     }
 
     public void addBalance(BigDecimal amount) {

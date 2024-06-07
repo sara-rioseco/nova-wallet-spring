@@ -1,17 +1,19 @@
 package com.bootcamp.novawalletspring.entity;
 
+import com.bootcamp.novawalletspring.model.Role;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -27,7 +29,12 @@ public class UserEntity {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
+    @Column(name = "role", nullable = false, length = 15)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false)
     private Instant creationDate;
 
