@@ -26,12 +26,12 @@ public class Account {
     private Currency currency;
 
     @ColumnDefault("0")
-    @Column(name = "balance", nullable = false)
+    @Column(name = "balance")
     private BigDecimal balance;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date", nullable = false)
+    @Column(name = "creation_date")
     private Instant creationDate;
 
 }

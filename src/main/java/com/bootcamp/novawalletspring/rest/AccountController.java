@@ -3,10 +3,10 @@ package com.bootcamp.novawalletspring.rest;
 import com.bootcamp.novawalletspring.entity.Account;
 import com.bootcamp.novawalletspring.entity.Transaction;
 import com.bootcamp.novawalletspring.service.AccountService;
+import com.bootcamp.novawalletspring.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/account")
@@ -15,11 +15,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-//    @Autowired TODO
-//    private TrasactionService trasactionService;
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping
-    public Iterable<Account> getEmployees() {
+    public Iterable<Account> getAccounts() {
         return accountService.getAllAccounts();
     }
 
@@ -41,9 +41,9 @@ public class AccountController {
     @PatchMapping("/{id}")
     public Account updateBalance(@PathVariable int id, @RequestBody Transaction transaction) {
         Account updatedAccount = accountService.updateBalance(transaction, accountService.getAccountById(id));
-//        if (updatedAccount != null) { TODO
-//            Transaction transaction = transactionService.save(transaction);
-//        }
+        if (updatedAccount != null) {
+            Transaction newTransaction = transactionService.createTransaction(transaction);
+        }
         return updatedAccount;
     }
 

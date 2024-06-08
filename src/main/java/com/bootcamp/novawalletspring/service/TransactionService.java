@@ -1,12 +1,11 @@
 package com.bootcamp.novawalletspring.service;
 
-import com.bootcamp.novawalletspring.model.Transaction;
-
-import java.util.List;
+import com.bootcamp.novawalletspring.entity.Transaction;
 
 public interface TransactionService {
-    boolean createTransaction(Transaction transaction);
+    Transaction createTransaction(Transaction transaction);
     Transaction getTransactionById(int id);
-    List<Transaction> getAllTransactions();
-    List<Transaction> getTransactionsByUserId(int ownerId);
+    Iterable<Transaction> getTransactionsByUserId(int ownerId);
+    Iterable<Transaction> getAllTransactions();
+    boolean deleteTransaction(int id);
 }

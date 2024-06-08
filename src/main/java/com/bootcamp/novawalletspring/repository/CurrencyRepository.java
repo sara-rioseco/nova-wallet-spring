@@ -1,13 +1,41 @@
 package com.bootcamp.novawalletspring.repository;
 
-import com.bootcamp.novawalletspring.model.Currency;
+import com.bootcamp.novawalletspring.entity.Account;
+import com.bootcamp.novawalletspring.entity.Currency;
+import jakarta.annotation.Nonnull;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface CurrencyRepository {
-    boolean createCurrency(Currency currency);
-    Currency getCurrencyById(int id);
-    boolean updateCurrency(Currency currency);
-    boolean deleteCurrency(int id);
-    List<Currency> getAllCurrencies();
+
+public interface CurrencyRepository extends CrudRepository<Currency, Integer> {
+
+    @Override
+    @Transactional
+    @Nonnull
+    <S extends Currency> S save(@Nonnull S entity);
+
+    @Override
+    @Nonnull
+    Optional<Currency> findById(@Nonnull Integer id);
+
+    @Query("SELECT c FROM Currency c WHERE c.symbol = :symbol")
+    Optional<Currency> findBySymbol(String symbol);
+
+    @Override
+    @Nonnull
+    Iterable<Currency> findAll();
+
+    @Override
+    boolean existsById(@Nonnull Integer id);
+
+    @Override
+    @Transactional
+    void deleteById(@Nonnull Integer integer);
+
+    @Override
+    @Transactional
+    void deleteAll();
 }

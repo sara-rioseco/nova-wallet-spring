@@ -1,15 +1,14 @@
 package com.bootcamp.novawalletspring.service;
 
-import com.bootcamp.novawalletspring.model.Contact;
-
-import java.util.List;
+import com.bootcamp.novawalletspring.entity.Contact;
+import com.bootcamp.novawalletspring.entity.User;
 
 public interface ContactService {
-    boolean createContact(Contact contact);
+    Contact createContact(Contact contact);
     Contact getContactById(int id);
-    int getContactUserIdByContactId(int id);
-    boolean updateContact(Contact contact);
+    User getContactUserByContactId(int id);
+    Contact updateContact(Contact contact);
     boolean deleteContact(int id);
-    List<Contact> getAllContacts();
-    List<Contact> getAllContactsByOwnerId(int ownerId);
+    Iterable<Contact> getAllContacts();
+    Iterable<Contact> getAllContactsByOwnerId(int ownerId);
 }

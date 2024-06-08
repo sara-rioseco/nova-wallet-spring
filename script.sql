@@ -1,7 +1,7 @@
 START transaction;
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci;
 USE nova_wallet;
 
 -- CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
@@ -20,8 +20,8 @@ CREATE TABLE users(
                       last_name VARCHAR(50) NOT NULL,
                       email VARCHAR(50) NOT NULL UNIQUE,
                       password VARCHAR(60) NOT NULL,
-                      role VARCHAR(15) NOT NULL,
-                      creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                      role VARCHAR(15) DEFAULT 'ROLE_USER',
+                      creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Create unique index on users' id and email
@@ -31,8 +31,8 @@ CREATE TABLE accounts(
                          id INT PRIMARY KEY AUTO_INCREMENT,
                          owner_id INT NOT NULL,
                          currency_id INT NOT NULL,
-                         balance INT NOT NULL DEFAULT 0,
-                         creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         balance INT DEFAULT 0,
+                         creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          FOREIGN KEY(owner_id) REFERENCES users(id),
                          FOREIGN KEY(currency_id) REFERENCES currencies(id)
 )  ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -47,7 +47,7 @@ CREATE TABLE contacts(
                          email VARCHAR(50) NOT NULL,
                          contact_user_id INT NOT NULL,
                          owner_user_id INT NOT NULL,
-                         creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          FOREIGN KEY(contact_user_id) REFERENCES users(id),
                          FOREIGN KEY(owner_user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -64,7 +64,7 @@ CREATE TABLE transactions(
                              sender_account_id INT NOT NULL,
                              receiver_user_id INT NOT NULL,
                              receiver_account_id INT NOT NULL,
-                             creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                              FOREIGN KEY(sender_user_id) REFERENCES users(id),
                              FOREIGN KEY(sender_account_id) REFERENCES accounts(id),
                              FOREIGN KEY(receiver_user_id) REFERENCES users(id),
@@ -132,10 +132,10 @@ VALUES
 INSERT INTO nova_wallet.transactions (sender_user_id, sender_account_id, receiver_user_id, receiver_account_id,
                                       currency_id, amount, transaction_type, creation_date)
 VALUES
-    (1, 1, 1, 1, 1, 2600, 'deposit', NOW()),
-    (1, 1, 1, 1, 1, 800, 'withdrawal', NOW()),
-    (1, 1, 2, 2, 1, 400, 'transfer', NOW()),
-    (1, 1, 3, 3, 1, 1000, 'transfer', NOW());
+    (1, 1, 1, 1, 1, 2600, 'DEPOSIT', NOW()),
+    (1, 1, 1, 1, 1, 800, 'WITHDRAWAL', NOW()),
+    (1, 1, 2, 2, 1, 400, 'TRANSFER', NOW()),
+    (1, 1, 3, 3, 1, 1000, 'TRANSFER', NOW());
 
 -- Update accounts according to transaction movements
 UPDATE accounts SET balance = 400 WHERE id = 1;
