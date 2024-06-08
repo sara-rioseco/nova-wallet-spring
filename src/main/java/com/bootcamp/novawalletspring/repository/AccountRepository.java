@@ -18,12 +18,6 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
 
-
-//    boolean updateBalance(int id, BigDecimal amount, TransactionType type, boolean ownerUser);
-
-    Account getAccountByOwnerId(int id);
-
-
     @Override
     @Transactional
     @Nonnull
@@ -33,9 +27,8 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     @Nonnull
     Optional<Account> findById(@Nonnull Integer id);
 
-//    @Nonnull
-//    @Query("SELECT user FROM User user WHERE user.owner_id = :ownerId")
-//    Optional<Account> findByOwnerId(@Nonnull @Param("ownerId") Integer ownerId);
+    @Query("SELECT account FROM Account account WHERE account.owner.id = :ownerId")
+    Optional<Account> findByOwnerId(int ownerId);
 
     @Override
     boolean existsById(@Nonnull Integer integer);
@@ -43,10 +36,6 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     @Override
     @Nonnull
     Iterable<Account> findAll();
-
-    @Override
-    @Nonnull
-    Iterable<Account> findAllById(@Nonnull Iterable<Integer> integers);
 
     @Override
     long count();

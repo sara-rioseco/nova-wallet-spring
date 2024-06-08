@@ -1,6 +1,8 @@
 package com.bootcamp.novawalletspring.service.impl;
 
 import com.bootcamp.novawalletspring.entity.Account;
+import com.bootcamp.novawalletspring.entity.Transaction;
+import com.bootcamp.novawalletspring.entity.User;
 import com.bootcamp.novawalletspring.model.TransactionType;
 import com.bootcamp.novawalletspring.repository.AccountRepository;
 import com.bootcamp.novawalletspring.service.AccountService;
@@ -46,20 +48,66 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-//    @Override
-//    public boolean updateBalance(int id, BigDecimal amount, TransactionType type, boolean ownerUser) {
-//        return false;
-//    }
+    @Override
+    public Account updateBalance(Transaction transaction, Account account) {
+        TransactionType type = transaction.getTransactionType();
+        BigDecimal amount = transaction.getAmount();
+        User sender = transaction.getSenderUser();
+        User receiver = transaction.getReceiverUser();
+        Account senderAccount = getAccountById(account.getId());
+        Account receiverAccount = null;
+        if (type == TransactionType.DEPOSIT && sender.getId().equals(receiver.getId())) {
+            BigDecimal newBalance = account.getBalance().add(amount);
+            account.setBalance(newBalance);
+        }
+        if (type == TransactionType.WITHDRAWAL && senderAccount.getBalance().compareTo(amount) >= 0 ) {
+            BigDecimal newBalance = account.getBalance().subtract(amount);
+            account.setBalance(newBalance);
+        }
+        if (type == TransactionType.TRANSFER
+            && senderAccount.getBalance().compareTo(amount) >= 0
+            && !sender.getId().equals(receiver.getId())) {
+            receiverAccount = getAccountByOwnerId(receiver.getId());
+            BigDecimal newOwnerBalance = account.getBalance().subtract(amount);
+            BigDecimal newReceiverBalance = receiverAccount.getBalance().add(amount);
+            account.setBalance(newOwnerBalance);
+            receiverAccount.setBalance(newReceiverBalance);
+        }
+        try {
+            if (receiverAccount != null) accountRepository.save(receiverAccount);
+            return accountRepository.save(account);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     public boolean deleteAccount(int id) {
-        return false;
+        try {
+            accountRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
     }
 
-//    @Override
-//    public Account getAccountByOwnerId(int id) {
-//        return null;
-//    }
+    @Override
+    public Account getAccountByOwnerId(int id) {
+        try {
+            Optional<Account> acc = accountRepository.findByOwnerId(id);
+            if (acc.isPresent()) {
+                return acc.get();
+            }
+            else {
+                throw new Exception("Error getting account");
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     public Iterable<Account> getAllAccounts() {

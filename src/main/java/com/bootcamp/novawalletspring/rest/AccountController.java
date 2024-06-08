@@ -1,14 +1,10 @@
 package com.bootcamp.novawalletspring.rest;
 
 import com.bootcamp.novawalletspring.entity.Account;
-import com.bootcamp.novawalletspring.repository.AccountRepository;
+import com.bootcamp.novawalletspring.entity.Transaction;
 import com.bootcamp.novawalletspring.service.AccountService;
-import com.bootcamp.novawalletspring.service.impl.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +15,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+//    @Autowired TODO
+//    private TrasactionService trasactionService;
+
     @GetMapping
     public Iterable<Account> getEmployees() {
         return accountService.getAllAccounts();
@@ -27,5 +26,29 @@ public class AccountController {
     @GetMapping("/{id}")
     public Account getById(@PathVariable int id) {
         return accountService.getAccountById(id);
+    }
+
+    @GetMapping("/owner/{id}")
+    public Account getByOwnerId(@PathVariable int id) {
+        return accountService.getAccountByOwnerId(id);
+    }
+
+    @PostMapping
+    public Account createAccount(@RequestBody Account account) {
+        return accountService.createAccount(account);
+    }
+
+    @PatchMapping("/{id}")
+    public Account updateBalance(@PathVariable int id, @RequestBody Transaction transaction) {
+        Account updatedAccount = accountService.updateBalance(transaction, accountService.getAccountById(id));
+//        if (updatedAccount != null) { TODO
+//            Transaction transaction = transactionService.save(transaction);
+//        }
+        return updatedAccount;
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteAccount(@PathVariable int id) {
+        return accountService.deleteAccount(id);
     }
 }

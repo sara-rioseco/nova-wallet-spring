@@ -1,18 +1,19 @@
 package com.bootcamp.novawalletspring.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "accounts")
 public class Account {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -26,7 +27,7 @@ public class Account {
 
     @ColumnDefault("0")
     @Column(name = "balance", nullable = false)
-    private Integer balance;
+    private BigDecimal balance;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
