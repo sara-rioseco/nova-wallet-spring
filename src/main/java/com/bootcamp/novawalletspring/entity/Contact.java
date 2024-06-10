@@ -22,8 +22,8 @@ public class Contact {
     @Column(name = "last_name", length = 30)
     private String lastName;
 
-    @Column(name = "email", nullable = false, length = 50)
-    private String email;
+    @Column(name = "username", nullable = false, length = 50)
+    private String username;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "contact_user_id", nullable = false)
