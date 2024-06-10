@@ -23,9 +23,9 @@ To run NovaWallet on your local machine, follow these steps:
 1. Clone the repository to your local environment.
 2. Ensure that MySQL Server is running and that you have a valid MySQL connection on the default port (3306).
 3. Download the MySQL script found on the root of the project (script.sql) and run it to create schema.
-4. Open the project in your preferred Java IDE.
+4. Open the project in your preferred Java IDE, make sure to modify the datasource user and password.
 5. Compile and run the project as a Spring Boot Project.
-6. Go to [http://localhost:8080/nova-wallet](http://localhost:8080/home) and sign up.
+6. Go to [http://localhost:8080/login](http://localhost:8080/login) and log in, or press the Sign Up option to register.
 
 ### Requirements 💻
 Java Development Kit (JDK) version 21 or higher.
