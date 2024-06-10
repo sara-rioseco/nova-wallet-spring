@@ -46,7 +46,7 @@
             </div>
             <button id="button-signup">Sign up</button>
             <p class="signup-text">Already have an account?
-                <span><a href="login.jsp">Login here.</a></span></p>
+                <span><a href="login">Login here.</a></span></p>
             <dialog class="modal msg-modal">
                 <div class="wrapper dialog-wrapper"><h3 class="title">User created</h3>
                     <p>successfully</p>

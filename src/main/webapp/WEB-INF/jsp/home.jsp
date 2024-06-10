@@ -19,7 +19,70 @@
 <body>
 <div id="root" class="root">
     <div class="home-wrapper">
-        <h1>ESTE ES EL HOME</h1>
+        <header>
+            <div class="header-container">
+                <h1 class="logo"><a href="home">Nova<span>Wallet</span></a></h1>
+                <nav class="site-nav">
+                    <button class="menu-toggle" id="menu-toggle" aria-controls="primary-navigation" aria-expanded="false"><span
+                            class="visually-hidden"></span>
+                        <div class="hamburger" id="hamburger" aria-hidden="true"></div>
+                    </button>
+                    <ul class="primary-navigation" id="primary-navigation" data-state="closed">
+                        <a href="${pageContext.request.contextPath}/home"><li>Home</li></a>
+                        <a href="${pageContext.request.contextPath}/deposit"><li>Deposit</li></a>
+                        <a href="${pageContext.request.contextPath}/withdraw"><li>Withdraw</li></a>
+                        <a href="${pageContext.request.contextPath}/transfer"><li>Send Money</li></a>
+                        <a href="${pageContext.request.contextPath}/transactions"><li>Transactions</li></a>
+                        <a href="${pageContext.request.contextPath}/logout"><li>Logout</li></a>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main class="home-content-wrapper">
+            <section class="home-left"><h2 class="home-left-title home-title">Hello, ${user.firstName}</h2>
+                <div class="balance-wrapper"><h3 class="balance-title">your balance is:</h3>
+                    <h2 class="balance-subtitle">${currency} ${balance}</h2></div>
+                <a class="button icon-button credit-card-button" href="${pageContext.request.contextPath}/deposit"><div id="button-credit-card">
+                    <i class="fa fa-credit-card home-icon"></i>
+                </div></a>
+                <a class="button icon-button credit-card-button" href="${pageContext.request.contextPath}/transfer"><div id="button-exchange">
+                    <i class="fa fa-exchange home-icon"></i>
+                </div></a>
+                <a class="button icon-button credit-card-button" href="${pageContext.request.contextPath}/transactions"><div id="button-history">
+                    <i class="fa fa-history home-icon"></i>
+                </div></a>
+                <div id="button-user" class="button icon-button user-button">
+                    <i class="fa fa-user home-icon"></i>
+                </div>
+            </section>
+            <section class="home-right"><h3 class="home-right-title home-title">Recent Activity</h3>
+                <section class="home-history-wrapper">
+                    <c:forEach items="${transactions}" var="item">
+                        <div class="history-item-wrapper">
+                            <div class="history-item-title">
+                                <h3>${item.type}</h3>
+                                <h3>${item.currency} ${item.symbol}${item.amount}</h3>
+                            </div>
+                            <p class="history-item-subtitle">${item.date}</p>
+                        </div>
+                    </c:forEach>
+                </section>
+            </section>
+        </main>
+        <dialog class="modal msg-modal" id="user-modal">
+            <div class="wrapper dialog-wrapper"><h3 class="title">User information</h3>
+                <p>Name: ${user.firstName}
+
+                    Lastname: ${user.lastName}
+
+                    Email: ${user.username}</p>
+                <button class="button close-button" id="user-modal-close">Ok</button>
+            </div>
+        </dialog>
+        <footer>
+            <div class="footer-container"><p>Designed and developed by ©Sara Rioseco 2024</p></div>
+        </footer>
+
     </div>
 </div>
 </body>

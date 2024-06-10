@@ -43,7 +43,7 @@
                     <div class="history-item-wrapper">
                         <div class="history-item-title">
                             <h3>${item.type}</h3>
-                            <h3>${item.symbol}${item.amount}</h3>
+                            <h3>${item.currency} ${item.symbol}${item.amount}</h3>
                         </div>
                         <p class="history-item-subtitle">${item.date}</p>
                     </div>

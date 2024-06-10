@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 @Data
@@ -48,6 +49,6 @@ public class Transaction {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private Instant creationDate;
+    private Timestamp creationDate;
 
 }
