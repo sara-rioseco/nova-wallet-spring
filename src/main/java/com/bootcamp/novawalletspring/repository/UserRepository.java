@@ -22,8 +22,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Nonnull
     Optional<User> findById(@Nonnull Integer id);
 
-    @Query("SELECT u FROM User u WHERE u.email = :email")
-    Optional<User> findByEmail(@Nonnull String email);
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+    Optional<User> findByUsername(@Nonnull String username);
 
     @Override
     boolean existsById(@Nonnull Integer id);

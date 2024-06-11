@@ -1,7 +1,7 @@
 START transaction;
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE nova_wallet;
 
 CREATE USER 'tester'@'localhost' IDENTIFIED BY 'password';
@@ -18,14 +18,18 @@ CREATE TABLE users(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       first_name VARCHAR(50) NOT NULL,
                       last_name VARCHAR(50) NOT NULL,
-                      email VARCHAR(50) NOT NULL UNIQUE,
+                      username VARCHAR(50) NOT NULL UNIQUE,
                       password VARCHAR(60) NOT NULL,
                       role VARCHAR(15) DEFAULT 'ROLE_USER',
-                      creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                      creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      is_enabled BOOLEAN DEFAULT true,
+                      account_no_expired BOOLEAN DEFAULT true,
+                      account_no_locked BOOLEAN DEFAULT true,
+                      credential_no_expired BOOLEAN DEFAULT true
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Create unique index on users' id and email
-CREATE UNIQUE INDEX user_email ON users(id ASC, email);
+-- Create unique index on users' id and username
+CREATE UNIQUE INDEX user_username ON users(id ASC, username);
 
 CREATE TABLE accounts(
                          id INT PRIMARY KEY AUTO_INCREMENT,
@@ -44,7 +48,7 @@ CREATE TABLE contacts(
                          id INT PRIMARY KEY AUTO_INCREMENT,
                          first_name VARCHAR(30) NOT NULL,
                          last_name VARCHAR(30),
-                         email VARCHAR(50) NOT NULL,
+                         username VARCHAR(50) NOT NULL,
                          contact_user_id INT NOT NULL,
                          owner_user_id INT NOT NULL,
                          creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -83,7 +87,7 @@ VALUES
     ('Euros', 'EUR');
 
 -- Insert users
-INSERT INTO nova_wallet.users(first_name, last_name, email, password, role, creation_date)
+INSERT INTO nova_wallet.users(first_name, last_name, username, password, role, creation_date)
 VALUES
     ('Pepito', 'Perez', 'pepito@mail.com', '$2a$10$OboGwlU9.83FbUylNMakKOtwNrHhbH9kLySK3qbjpZrmUt.tEge4C', 'ROLE_ADMIN', NOW()),
     ('Fulanito', 'Perez', 'fulano@mail.com', '$2a$10$F93Pzfdzcd7msk62EKkv7u9VpNcNNrTnwFyJvegLj6f5P5MVJkVb2', 'ROLE_USER', NOW()),
@@ -117,7 +121,7 @@ VALUES
     (13, 0, 1, NOW());
 
 -- Insert contacts
-INSERT INTO nova_wallet.contacts (first_name, last_name, email, contact_user_id, owner_user_id, creation_date)
+INSERT INTO nova_wallet.contacts (first_name, last_name, username, contact_user_id, owner_user_id, creation_date)
 VALUES
     ('Fulanito', 'Perez','fulano@mail.com', 2, 1, NOW()),
     ('Fulanito', 'Perez','fulano@mail.com', 2, 3, NOW()),
