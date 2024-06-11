@@ -1,92 +1,15 @@
 package com.bootcamp.novawalletspring.controller;
 
-import com.bootcamp.novawalletspring.entity.Account;
-import com.bootcamp.novawalletspring.entity.Transaction;
-import com.bootcamp.novawalletspring.entity.User;
-import com.bootcamp.novawalletspring.model.TransactionItem;
-import com.bootcamp.novawalletspring.service.AccountService;
-import com.bootcamp.novawalletspring.service.TransactionService;
-import com.bootcamp.novawalletspring.service.UserService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-
-import static com.bootcamp.novawalletspring.utils.Utils.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 
-    private final AccountService accountService;
-    private final UserService userService;
-    private final TransactionService transactionService;
-    private final HttpSession httpSession;
-
-
-    public HomeController(AccountService accountService, UserService userService, TransactionService transactionService, HttpSession httpSession) {
-        this.accountService = accountService;
-        this.userService = userService;
-        this.transactionService = transactionService;
-        this.httpSession = httpSession;
-    }
-
     @GetMapping
     public String home() {
-        boolean isUserAuthenticated = httpSession.getAttribute("user") != null;
-        if (isUserAuthenticated) {
-            return "home.jsp";
-        } else {
-            return "redirect:login";
-        }
-    }
-
-    @PostMapping
-    public ModelAndView loginSuccessful(@RequestParam(name="username") String username, @RequestParam(name="password") String password) {
-        User currentUser = userService.getUserByUsername(username);
-        boolean isAuthorized = BCrypt.checkpw(password, currentUser.getPassword());
-        ModelAndView mav;
-        if (isAuthorized) {
-            Account acc = accountService.getAccountByOwnerId(currentUser.getId());
-            String balance = NumberFormat.getCurrencyInstance(Objects.equals(acc.getCurrency().getSymbol(), "USD") ? Locale.US : null).format(acc.getBalance());
-            Iterable<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getId());
-            List<TransactionItem> formattedTr = new ArrayList<>();
-                transactions.forEach(tr -> {
-                    TransactionItem transaction = new TransactionItem();
-                    transaction.setAmount(NumberFormat.getCurrencyInstance(Locale.US).format(tr.getAmount()));
-                    transaction.setType(capitalize(tr.getTransactionType().name()));
-                    transaction.setDate("On " + formatDate(tr.getCreationDate()) + " at " + formatTime(tr.getCreationDate()));
-                    transaction.setCurrency(tr.getCurrency().getSymbol());
-                    transaction.setSymbol(
-                            (Objects.equals(String.valueOf(tr.getTransactionType()), "WITHDRAWAL")
-                            || (Objects.equals(String.valueOf(tr.getTransactionType()), "TRANSFER")
-                            && Objects.equals(currentUser.getId(), tr.getSenderUser().getId())))
-                            ? "-" : "");
-                    formattedTr.add(transaction);
-                });
-            mav = new ModelAndView("home.jsp");
-            httpSession.setAttribute("user", currentUser);
-            httpSession.setAttribute("account", acc);
-            httpSession.setAttribute("currency", acc.getCurrency().getSymbol());
-            httpSession.setAttribute("balance", balance);
-            httpSession.setAttribute("transactions", formattedTr);
-            mav.addObject("user", currentUser);
-            mav.addObject("account", acc);
-            mav.addObject("currency", acc.getCurrency().getSymbol());
-            mav.addObject("balance", balance);
-            mav.addObject("transactions", formattedTr);
-        }
-        else {
-            mav = new ModelAndView("login.jsp");
-        }
-        return mav;
+        return "home.jsp";
     }
 }

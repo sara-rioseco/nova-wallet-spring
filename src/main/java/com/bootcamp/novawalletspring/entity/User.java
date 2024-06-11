@@ -23,8 +23,8 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(unique = true, name = "username", nullable = false, length = 50)
-    private String username;
+    @Column(name = "email", nullable = false, length = 50)
+    private String email;
 
     @Column(name = "password", nullable = false, length = 60)
     private String password;
@@ -38,15 +38,4 @@ public class User {
     @Column(name = "creation_date")
     private Instant creationDate;
 
-    @Column(name ="is_enabled")
-    private boolean isEnabled;
-
-    @Column(name ="account_no_expired")
-    private boolean accountNoExpired;
-
-    @Column(name ="account_no_locked")
-    private boolean accountNoLocked;
-
-    @Column(name ="credential_no_expired")
-    private boolean credentialNoExpired;
 }
