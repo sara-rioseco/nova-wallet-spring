@@ -6,6 +6,7 @@ import com.bootcamp.novawalletspring.service.TransactionService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -79,11 +80,11 @@ public class TransactionServiceImpl implements TransactionService {
                 return transactions;
             }
             else {
-                throw new Exception("Error getting transactions by user id");
+                return new ArrayList<>();
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

@@ -39,15 +39,23 @@
         </header>
         <main class="transactions-content-wrapper"><h2 class="transactions-title">Transaction History</h2>
             <section class="transactions-history-wrapper">
-                <c:forEach items="${transactions}" var="item">
-                    <div class="history-item-wrapper">
-                        <div class="history-item-title">
-                            <h3>${item.type}</h3>
-                            <h3>${item.currency} ${item.symbol}${item.amount}</h3>
+                <c:if test="${transactions.size() > 0}">
+                    <c:forEach items="${transactions}" var="item">
+                        <div class="history-item-wrapper">
+                            <div class="history-item-title">
+                                <h3>${item.type}</h3>
+                                <h3>${item.symbol}${item.amount}</h3>
+                            </div>
+                            <p class="history-item-subtitle">${item.date}</p>
                         </div>
-                        <p class="history-item-subtitle">${item.date}</p>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${transactions.size() <= 0 || transactions == null}">
+                <div class="history-item-wrapper">
+                    <div class="history-item-title">
+                        <br>
+                        <h3>You don't have any transactions yet.</h3>
+                </c:if>
             </section>
             <h3 class="transactions-balance">Your total balance is: <span>${currency} ${balance}</span></h3></main>
         <footer>

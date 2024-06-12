@@ -36,7 +36,7 @@ public class LoginController {
     @GetMapping
     public String login(@RequestParam(value = "error", required = false) String error, Model model) {
         if (error != null) {
-            model.addAttribute("There's been an error: ", "Wrong credentials");
+            model.addAttribute("error", "Wrong credentials");
         }
         return "login.jsp";
     }

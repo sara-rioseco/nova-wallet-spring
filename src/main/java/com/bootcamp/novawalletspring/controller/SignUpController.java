@@ -2,43 +2,41 @@ package com.bootcamp.novawalletspring.controller;
 
 import com.bootcamp.novawalletspring.entity.Account;
 import com.bootcamp.novawalletspring.entity.Currency;
+import com.bootcamp.novawalletspring.entity.Transaction;
 import com.bootcamp.novawalletspring.entity.User;
-import com.bootcamp.novawalletspring.model.Role;
-import com.bootcamp.novawalletspring.service.AccountService;
-import com.bootcamp.novawalletspring.service.CurrencyService;
-import com.bootcamp.novawalletspring.service.UserService;
+import com.bootcamp.novawalletspring.service.*;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.ArrayList;
 
 @Controller
 @CommonsLog
 @RequestMapping("/signup")
 public class SignUpController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AccountService accountService;
+    private final CurrencyService currencyService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private CurrencyService currencyService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    public SignUpController(UserService userService, AccountService accountService, CurrencyService currencyService, TransactionService transactionService, ContactService contactService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.accountService = accountService;
+        this.currencyService = currencyService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @GetMapping
     public String showSignUp(Model model, @RequestParam(name="error", required=false) String error) {
+        if (error != null) {
+            model.addAttribute("error", "There's been an error creating your account." );
+        }
         return "signup.jsp";
     }
 
@@ -53,6 +51,10 @@ public class SignUpController {
             Currency cur = currencyService.getCurrencyById(1);
             newAcc.setCurrency(cur);
             newAcc.setOwner(newUser);
+            accountService.createAccount(newAcc);
+        }
+        else {
+            model.addAttribute("error", "Error creating new account");
         }
         return "redirect:/login";
     }

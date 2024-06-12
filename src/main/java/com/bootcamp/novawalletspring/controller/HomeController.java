@@ -5,8 +5,12 @@ import com.bootcamp.novawalletspring.entity.Transaction;
 import com.bootcamp.novawalletspring.entity.User;
 import com.bootcamp.novawalletspring.model.TransactionItem;
 import com.bootcamp.novawalletspring.service.AccountService;
+import com.bootcamp.novawalletspring.service.ContactService;
 import com.bootcamp.novawalletspring.service.TransactionService;
 import com.bootcamp.novawalletspring.service.UserService;
+import com.bootcamp.novawalletspring.service.impl.AccountServiceImpl;
+import com.bootcamp.novawalletspring.service.impl.TransactionServiceImpl;
+import com.bootcamp.novawalletspring.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,13 +35,15 @@ public class HomeController {
     private final AccountService accountService;
     private final UserService userService;
     private final TransactionService transactionService;
+    private final ContactService contactService;
     private final HttpSession httpSession;
 
 
-    public HomeController(AccountService accountService, UserService userService, TransactionService transactionService, HttpSession httpSession) {
+    public HomeController(AccountServiceImpl accountService, UserServiceImpl userService, TransactionServiceImpl transactionService, ContactService contactService, HttpSession httpSession) {
         this.accountService = accountService;
         this.userService = userService;
         this.transactionService = transactionService;
+        this.contactService = contactService;
         this.httpSession = httpSession;
     }
 
@@ -49,7 +55,8 @@ public class HomeController {
             Account acc = accountService.getAccountByOwnerId(currentUser.getId());
             String balance = NumberFormat.getCurrencyInstance(Objects.equals(acc.getCurrency().getSymbol(), "USD") ? Locale.US : null).format(acc.getBalance());
             Iterable<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getId());
-            List<TransactionItem> formattedTr = new ArrayList<>();
+            if (transactions.iterator().hasNext()) {
+                List<TransactionItem> formattedTr = new ArrayList<>();
                 transactions.forEach(tr -> {
                     TransactionItem transaction = new TransactionItem();
                     transaction.setAmount(NumberFormat.getCurrencyInstance(Locale.US).format(tr.getAmount()));
@@ -58,17 +65,20 @@ public class HomeController {
                     transaction.setCurrency(tr.getCurrency().getSymbol());
                     transaction.setSymbol(
                             (Objects.equals(String.valueOf(tr.getTransactionType()), "WITHDRAWAL")
-                            || (Objects.equals(String.valueOf(tr.getTransactionType()), "TRANSFER")
-                            && Objects.equals(currentUser.getId(), tr.getSenderUser().getId())))
-                            ? "-" : "");
+                                    || (Objects.equals(String.valueOf(tr.getTransactionType()), "TRANSFER")
+                                    && Objects.equals(currentUser.getId(), tr.getSenderUser().getId())))
+                                    ? "-" : "");
                     formattedTr.add(transaction);
+                    httpSession.setAttribute("transactions", formattedTr);
                 });
+            }
             mav = new ModelAndView("home.jsp");
             httpSession.setAttribute("user", currentUser);
             httpSession.setAttribute("account", acc);
             httpSession.setAttribute("currency", acc.getCurrency().getSymbol());
             httpSession.setAttribute("balance", balance);
-            httpSession.setAttribute("transactions", formattedTr);
+            httpSession.setAttribute("balanceBD", acc.getBalance());
+            httpSession.setAttribute("contacts", contactService.getAllContactsByOwnerId(currentUser.getId()));
         } else {
             mav = new ModelAndView("login.jsp");
         }

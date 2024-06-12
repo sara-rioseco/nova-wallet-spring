@@ -477,6 +477,7 @@ p.signup-text>span {
 .withdraw-content-wrapper>:is(h2)  {
   font-size: var(--fs-400);
   font-weight: 500;
+  text-align: center;
 }
 
 .deposit-content-wrapper>form>.input-wrapper,

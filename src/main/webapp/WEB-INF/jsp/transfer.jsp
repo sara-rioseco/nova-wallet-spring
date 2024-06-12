@@ -51,13 +51,13 @@
                                 <div class="contact-wrapper">
                                     <input type="radio" id="contact-${item.id}" name="contact" value=${item.id} class="contact-item contact-${item.id}" style="display: none;" required>
                                     <label class="contact-label" for="contact-${item.id}">
-                                            ${item.name} ${item.last}
-                                        <span>${item.mail}</span>
+                                            ${item.firstName} ${item.lastName}
+                                        <span>${item.username}</span>
                                     </label>
                                 </div>
                             </c:forEach>
                         </c:if>
-                        <c:if test="${contacts.size() == 0}">
+                        <c:if test="${contacts.size() == 0 || contacts == null}">
                             <div class="contact-wrapper">
                                 <h3 id="contact-0" class="contact-item no-contact"> You don't have any contacts yet. </h3>
                             </div>

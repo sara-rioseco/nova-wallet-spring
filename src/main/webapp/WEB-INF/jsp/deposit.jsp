@@ -44,7 +44,7 @@
                 <div class="balance-wrapper"><h3 class="balance-title">your balance is:</h3>
                     <h2 class="balance-subtitle">${currency} ${balance}</h2></div>
             </div>
-            <form style="display: contents;" method="post" action="../deposit">
+            <form style="display: contents;" method="post" action="${pageContext.request.contextPath}/deposit">
                 <div class="input-wrapper">
                     <input class="input input-text" type="number" id="deposit-amount"
                            autocomplete="new-password" placeholder=" " name="amount" required=""
