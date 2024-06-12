@@ -484,7 +484,7 @@ p.signup-text>span {
 .withdraw-content-wrapper>form>.input-wrapper,
 .input-wrapper>#deposit-amount,
 .input-wrapper>#withdraw-amount{
-  min-width: 200px;
+  /*min-width: 200px;*/
   text-align: right;
 }
 

@@ -46,10 +46,10 @@
             </div>
             <form style="display: contents;" method="post" action="${pageContext.request.contextPath}/deposit">
                 <div class="input-wrapper">
-                    <input class="input input-text" type="number" id="deposit-amount"
+                    <input class="input input-text" type="number" id="amount"
                            autocomplete="new-password" placeholder=" " name="amount" required=""
                            step="0.01" min="0.01" max="1000000.01">
-                    <label class="label input-label" for="deposit-amount">Enter amount</label>
+                    <label class="label input-label" for="amount">Enter amount</label>
                 </div>
                 <input class="button" type="submit" id="button-deposit" value="Deposit"/>
             </form>

@@ -53,25 +53,9 @@ public class HomeController {
         ModelAndView mav;
         if (currentUser != null) {
             Account acc = accountService.getAccountByOwnerId(currentUser.getId());
-            String balance = NumberFormat.getCurrencyInstance(Objects.equals(acc.getCurrency().getSymbol(), "USD") ? Locale.US : null).format(acc.getBalance());
+            String balance = formatBigDecimalAsCurrency(acc.getBalance(), acc.getCurrency());
             Iterable<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getId());
-            if (transactions.iterator().hasNext()) {
-                List<TransactionItem> formattedTr = new ArrayList<>();
-                transactions.forEach(tr -> {
-                    TransactionItem transaction = new TransactionItem();
-                    transaction.setAmount(NumberFormat.getCurrencyInstance(Locale.US).format(tr.getAmount()));
-                    transaction.setType(capitalize(tr.getTransactionType().name()));
-                    transaction.setDate("On " + formatDate(tr.getCreationDate()) + " at " + formatTime(tr.getCreationDate()));
-                    transaction.setCurrency(tr.getCurrency().getSymbol());
-                    transaction.setSymbol(
-                            (Objects.equals(String.valueOf(tr.getTransactionType()), "WITHDRAWAL")
-                                    || (Objects.equals(String.valueOf(tr.getTransactionType()), "TRANSFER")
-                                    && Objects.equals(currentUser.getId(), tr.getSenderUser().getId())))
-                                    ? "-" : "");
-                    formattedTr.add(transaction);
-                    httpSession.setAttribute("transactions", formattedTr);
-                });
-            }
+            List<TransactionItem> formattedTr = formatTransactions(transactions, currentUser);
             mav = new ModelAndView("home.jsp");
             httpSession.setAttribute("user", currentUser);
             httpSession.setAttribute("account", acc);
@@ -79,11 +63,14 @@ public class HomeController {
             httpSession.setAttribute("balance", balance);
             httpSession.setAttribute("balanceBD", acc.getBalance());
             httpSession.setAttribute("contacts", contactService.getAllContactsByOwnerId(currentUser.getId()));
+            httpSession.setAttribute("transactions", formattedTr);
         } else {
             mav = new ModelAndView("login.jsp");
         }
         return mav;
     }
+
+
 
     public User getCurrentUser(UserService userService) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
