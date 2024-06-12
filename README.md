@@ -18,21 +18,21 @@ While this application provides a comprehensive simulation, it's important to no
 - **Javadocs and Unit Tests:** The application includes Javadocs for code documentation and unit tests using JUnit and Mockito for ensuring code quality and reliability.
 
 ### Getting Started 🚀
-To run NovaWallet on your local machine, follow these steps:
+To run NovaWallet Spring on your local machine, follow these steps:
 
 1. Clone the repository to your local environment.
 2. Ensure that MySQL Server is running and that you have a valid MySQL connection on the default port (3306).
-3. Download the MySQL script found on the root of the project (script.sql) and run it to create schema.
-4. Open the project in your preferred Java IDE, make sure to modify the datasource user and password.
+3. Download the MySQL script found on the root of the project ([script.sql](https://github.com/sara-rioseco/nova-wallet-spring/blob/main/script.sql)) and run it to create database and to insert dummy data.
+4. Open the project in your preferred Java IDE and make sure to modify the datasource user and password using your own credentials.
 5. Compile and run the project as a Spring Boot Project.
-6. Go to [http://localhost:8080/login](http://localhost:8080/login) and log in, or press the Sign Up option to register.
+6. Go to [http://localhost:8080/login](http://localhost:8080/login) and log in, or press the SignUp option to register.
 
 ### Requirements 💻
-Java Development Kit (JDK) version 21 or higher.
-Java IDE (Eclipse, IntelliJ IDEA, etc.) for development.
-MySQL Server running on your machine
-MySQL Workbench or other method for running MySQL scripts
-Git for cloning the repository (optional).
+- Java Development Kit (JDK) version 21 or higher.
+- Java IDE (Eclipse, IntelliJ IDEA, etc.) for development.
+- MySQL Server running on your machine
+- MySQL Workbench or other method for running MySQL scripts
+- Git for cloning the repository (optional).
 
 ### Technologies Used 📖
 - Maven

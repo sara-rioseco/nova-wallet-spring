@@ -7,6 +7,7 @@ import com.bootcamp.novawalletspring.service.ContactService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -89,11 +90,11 @@ public class ContactServiceImpl implements ContactService {
                 return contacts;
             }
             else {
-                throw new Exception("Error getting contacts");
+                return new ArrayList<>();
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -105,11 +106,11 @@ public class ContactServiceImpl implements ContactService {
                 return contacts;
             }
             else {
-                throw new Exception("Error getting contacts");
+                return new ArrayList<>();
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 }
