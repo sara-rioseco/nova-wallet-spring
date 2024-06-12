@@ -3,8 +3,10 @@ package com.bootcamp.novawalletspring.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 @Data
@@ -27,11 +29,11 @@ public class Account {
 
     @ColumnDefault("0")
     @Column(name = "balance")
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.valueOf(0);
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private Instant creationDate;
+    private Timestamp creationDate;
 
 }

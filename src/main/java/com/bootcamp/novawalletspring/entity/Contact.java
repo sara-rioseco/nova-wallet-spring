@@ -3,7 +3,9 @@ package com.bootcamp.novawalletspring.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 
 @Data
@@ -33,9 +35,9 @@ public class Contact {
     @JoinColumn(name = "owner_user_id", nullable = false)
     private User ownerUser;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private Instant creationDate;
+    private Timestamp creationDate;
 
 }

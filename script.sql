@@ -4,14 +4,14 @@ SET SQL_SAFE_UPDATES = 0;
 CREATE DATABASE nova_wallet DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE nova_wallet;
 
-CREATE USER 'tester'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON nova_wallet.* TO 'tester'@'localhost';
-FLUSH PRIVILEGES;
+-- CREATE USER 'tester'@'localhost' IDENTIFIED BY 'password';
+-- GRANT ALL PRIVILEGES ON nova_wallet.* TO 'tester'@'localhost';
+-- FLUSH PRIVILEGES;
 
 CREATE TABLE currencies(
                            id INT PRIMARY KEY AUTO_INCREMENT,
                            name VARCHAR(30) NOT NULL,
-                           symbol CHAR(3) NOT NULL
+                           symbol VARCHAR(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE users(
@@ -22,10 +22,10 @@ CREATE TABLE users(
                       password VARCHAR(60) NOT NULL,
                       role VARCHAR(15) DEFAULT 'ROLE_USER',
                       creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                      is_enabled BOOLEAN DEFAULT true,
-                      account_no_expired BOOLEAN DEFAULT true,
-                      account_no_locked BOOLEAN DEFAULT true,
-                      credential_no_expired BOOLEAN DEFAULT true
+                      is_enabled BOOLEAN DEFAULT 1,
+                      account_no_expired BOOLEAN DEFAULT 1,
+                      account_no_locked BOOLEAN DEFAULT 1,
+                      credential_no_expired BOOLEAN DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Create unique index on users' id and username
@@ -35,7 +35,7 @@ CREATE TABLE accounts(
                          id INT PRIMARY KEY AUTO_INCREMENT,
                          owner_id INT NOT NULL,
                          currency_id INT NOT NULL,
-                         balance INT DEFAULT 0,
+                         balance DECIMAL(38, 2) DEFAULT 0,
                          creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          FOREIGN KEY(owner_id) REFERENCES users(id),
                          FOREIGN KEY(currency_id) REFERENCES currencies(id)
@@ -61,7 +61,7 @@ CREATE UNIQUE INDEX contact_owner ON contacts(id ASC, owner_user_id);
 
 CREATE TABLE transactions(
                              id INT PRIMARY KEY AUTO_INCREMENT,
-                             amount INT NOT NULL,
+                             amount DECIMAL(38, 2) NOT NULL,
                              currency_id INT NOT NULL,
                              transaction_type VARCHAR(20) NOT NULL,
                              sender_user_id INT NOT NULL,

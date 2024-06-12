@@ -1,7 +1,5 @@
 package com.bootcamp.novawalletspring.service.impl;
 
-import com.bootcamp.novawalletspring.entity.Account;
-import com.bootcamp.novawalletspring.entity.Contact;
 import com.bootcamp.novawalletspring.entity.User;
 import com.bootcamp.novawalletspring.repository.UserRepository;
 import com.bootcamp.novawalletspring.service.UserService;

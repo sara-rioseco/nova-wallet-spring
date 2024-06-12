@@ -4,6 +4,7 @@ import com.bootcamp.novawalletspring.model.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -46,7 +47,7 @@ public class Transaction {
     @JoinColumn(name = "receiver_account_id", nullable = false)
     private Account receiverAccount;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
     private Timestamp creationDate;

@@ -22,27 +22,27 @@
         <form class="signup-content-wrapper" method="post" action="signup"><h1>Nova<span>Wallet</span></h1>
             <div class="input-wrapper visually-hidden" hidden="">
                 <input class="input input-text" type="text" id="signup-username" autocomplete="new-password"
-                       placeholder=" " name="username">
+                       placeholder=" " name="mail">
                 <label class="label input-label" for="signup-username">Enter your username</label>
             </div>
             <div class="input-wrapper">
-                <input class="input input-text" type="text" id="signup-name"
-                       autocomplete="new-password" placeholder=" " name="firstname" required="">
-                <label class="label input-label" for="signup-name">Enter your Name</label>
+                <input class="input input-text" type="text" id="firstName"
+                       autocomplete="new-password" placeholder=" " name="firstName" required="">
+                <label class="label input-label" for="firstName">Enter your Name</label>
             </div>
             <div class="input-wrapper">
-                <input class="input input-text" type="text" id="signup-lastname"
-                       autocomplete="new-password" placeholder=" " name="lastname" required="">
-                <label class="label input-label" for="signup-lastname">Enter your Lastname</label></div>
+                <input class="input input-text" type="text" id="lastName"
+                       autocomplete="new-password" placeholder=" " name="lastName" required="">
+                <label class="label input-label" for="lastName">Enter your Lastname</label></div>
             <div class="input-wrapper">
-                <input class="input input-text" type="search" id="signup-email"
-                       autocomplete="new-password" placeholder=" " name="email" required="">
-                <label class="label input-label" for="signup-email">Enter your Email</label>
+                <input class="input input-text" type="search" id="username"
+                       autocomplete="new-password" placeholder=" " name="username" required="">
+                <label class="label input-label" for="username">Enter your Email</label>
             </div>
             <div class="input-wrapper">
-                <input class="input input-text" type="password" id="signup-password"
+                <input class="input input-text" type="password" id="password"
                        autocomplete="new-password" placeholder=" " name="password" required="">
-                <label class="label input-label" for="signup-password">Enter your Password</label>
+                <label class="label input-label" for="password">Enter your Password</label>
             </div>
             <button id="button-signup">Sign up</button>
             <p class="signup-text">Already have an account?

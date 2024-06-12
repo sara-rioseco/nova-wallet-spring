@@ -21,13 +21,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -59,8 +55,7 @@ public class SecurityConfig {
                 .formLogin((form)->
                         form
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/home")
-                                .failureForwardUrl("/login")
+                                .defaultSuccessUrl("/home", true)
                                 .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
@@ -87,7 +82,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
