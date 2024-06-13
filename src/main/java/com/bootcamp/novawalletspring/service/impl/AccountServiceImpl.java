@@ -8,23 +8,30 @@ import com.bootcamp.novawalletspring.repository.AccountRepository;
 import com.bootcamp.novawalletspring.service.AccountService;
 import com.bootcamp.novawalletspring.service.TransactionService;
 import lombok.extern.apachecommons.CommonsLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * The type Account service.
+ */
 @Service
 @CommonsLog
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final TransactionService transactionService;
 
-    @Autowired
-    private TransactionService transactionService;
-
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    /**
+     * Instantiates a new Account service.
+     *
+     * @param accountRepository  the account repository
+     * @param transactionService the transaction service
+     */
+    public AccountServiceImpl(AccountRepository accountRepository, TransactionService transactionService) {
         this.accountRepository = accountRepository;
+        this.transactionService = transactionService;
     }
 
     @Override

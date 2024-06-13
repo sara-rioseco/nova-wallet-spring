@@ -9,12 +9,20 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * The type Transaction service.
+ */
 @Service
 @CommonsLog
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
 
+    /**
+     * Instantiates a new Transaction service.
+     *
+     * @param transactionRepository the transaction repository
+     */
     public TransactionServiceImpl(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }

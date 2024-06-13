@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The interface Account repository.
+ */
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
 
@@ -21,6 +24,12 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     @Nonnull
     Optional<Account> findById(@Nonnull Integer id);
 
+    /**
+     * Find by owner id optional.
+     *
+     * @param ownerId the owner id
+     * @return the optional
+     */
     @Query("SELECT acc FROM Account acc WHERE acc.owner.id = :ownerId")
     Optional<Account> findByOwnerId(int ownerId);
 

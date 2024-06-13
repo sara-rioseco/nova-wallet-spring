@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface User repository.
+ */
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
@@ -22,6 +24,12 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Nonnull
     Optional<User> findById(@Nonnull Integer id);
 
+    /**
+     * Find by username optional.
+     *
+     * @param username the username
+     * @return the optional
+     */
     @Query("SELECT u FROM User u WHERE u.username = :username")
     Optional<User> findByUsername(@Nonnull String username);
 

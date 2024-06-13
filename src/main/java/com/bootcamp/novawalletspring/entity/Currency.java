@@ -3,6 +3,9 @@ package com.bootcamp.novawalletspring.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+/**
+ * The type Currency.
+ */
 @Data
 @Entity
 @Table(name = "currencies")

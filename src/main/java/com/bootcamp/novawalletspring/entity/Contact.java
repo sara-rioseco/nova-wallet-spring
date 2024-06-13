@@ -2,12 +2,13 @@ package com.bootcamp.novawalletspring.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 
+/**
+ * The type Contact.
+ */
 @Data
 @Entity
 @Table(name = "contacts")

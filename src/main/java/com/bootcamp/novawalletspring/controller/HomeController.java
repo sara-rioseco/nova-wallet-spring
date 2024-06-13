@@ -10,24 +10,21 @@ import com.bootcamp.novawalletspring.service.TransactionService;
 import com.bootcamp.novawalletspring.service.UserService;
 import com.bootcamp.novawalletspring.service.impl.AccountServiceImpl;
 import com.bootcamp.novawalletspring.service.impl.TransactionServiceImpl;
+import com.bootcamp.novawalletspring.service.impl.UserDetailsServiceImpl;
 import com.bootcamp.novawalletspring.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 import static com.bootcamp.novawalletspring.utils.Utils.*;
 
+/**
+ * The type Home controller.
+ */
 @Controller
 @RequestMapping("/home")
 public class HomeController {
@@ -37,19 +34,36 @@ public class HomeController {
     private final TransactionService transactionService;
     private final ContactService contactService;
     private final HttpSession httpSession;
+    private final UserDetailsServiceImpl userDetailsService;
 
-
-    public HomeController(AccountServiceImpl accountService, UserServiceImpl userService, TransactionServiceImpl transactionService, ContactService contactService, HttpSession httpSession) {
+    /**
+     * Instantiates a new Home controller.
+     *
+     * @param accountService     the account service
+     * @param userService        the user service
+     * @param transactionService the transaction service
+     * @param contactService     the contact service
+     * @param httpSession        the http session
+     * @param userDetailsService the user details service
+     */
+    public HomeController(AccountServiceImpl accountService, UserServiceImpl userService, TransactionServiceImpl transactionService, ContactService contactService, HttpSession httpSession, UserDetailsServiceImpl userDetailsService) {
         this.accountService = accountService;
         this.userService = userService;
         this.transactionService = transactionService;
         this.contactService = contactService;
         this.httpSession = httpSession;
+        this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Show home model and view.
+     *
+     * @param model the model
+     * @return the model and view
+     */
     @GetMapping
-    public ModelAndView home(Model model) {
-        User currentUser = getCurrentUser(userService);
+    public ModelAndView showHomeView(Model model) {
+        User currentUser = userDetailsService.getCurrentUser(userService);
         ModelAndView mav;
         if (currentUser != null) {
             Account acc = accountService.getAccountByOwnerId(currentUser.getId());
@@ -69,16 +83,4 @@ public class HomeController {
         }
         return mav;
     }
-
-
-
-    public User getCurrentUser(UserService userService) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            return userService.getUserByUsername(username);
-        }
-        return null;
-    }
-
 }

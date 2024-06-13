@@ -8,12 +8,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Currency service.
+ */
 @Service
 @CommonsLog
 public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyRepository currencyRepository;
 
+    /**
+     * Instantiates a new Currency service.
+     *
+     * @param currencyRepository the currency repository
+     */
     public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
         this.currencyRepository = currencyRepository;
     }

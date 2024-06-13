@@ -5,8 +5,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+/**
+ * The type Jsp config.
+ */
 @Configuration
 public class JSPConfig {
+    /**
+     * Jsp view resolver internal resource view resolver.
+     *
+     * @return the internal resource view resolver
+     */
     @Bean
     InternalResourceViewResolver jspViewResolver(){
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

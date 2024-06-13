@@ -11,10 +11,9 @@ import com.bootcamp.novawalletspring.service.TransactionService;
 import com.bootcamp.novawalletspring.service.UserService;
 import com.bootcamp.novawalletspring.service.impl.AccountServiceImpl;
 import com.bootcamp.novawalletspring.service.impl.TransactionServiceImpl;
+import com.bootcamp.novawalletspring.service.impl.UserDetailsServiceImpl;
 import com.bootcamp.novawalletspring.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +27,9 @@ import java.util.List;
 import static com.bootcamp.novawalletspring.utils.Utils.formatBigDecimalAsCurrency;
 import static com.bootcamp.novawalletspring.utils.Utils.formatTransactions;
 
+/**
+ * The type Deposit controller.
+ */
 @Controller
 @RequestMapping("/deposit")
 public class DepositController {
@@ -36,26 +38,52 @@ public class DepositController {
     private final UserService userService;
     private final TransactionService transactionService;
     private final HttpSession httpSession;
+    private final UserDetailsServiceImpl userDetailsService;
 
 
-    public DepositController(AccountServiceImpl accountService, UserServiceImpl userService, TransactionServiceImpl transactionService, ContactService contactService, HttpSession httpSession) {
+    /**
+     * Instantiates a new Deposit controller.
+     *
+     * @param accountService     the account service
+     * @param userService        the user service
+     * @param transactionService the transaction service
+     * @param contactService     the contact service
+     * @param httpSession        the http session
+     * @param userDetailsService the user details service
+     */
+    public DepositController(AccountServiceImpl accountService, UserServiceImpl userService, TransactionServiceImpl transactionService, ContactService contactService, HttpSession httpSession, UserDetailsServiceImpl userDetailsService) {
         this.accountService = accountService;
         this.userService = userService;
         this.transactionService = transactionService;
         this.httpSession = httpSession;
+        this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Show deposit view.
+     *
+     * @param model the model
+     * @param error the error
+     * @return the string
+     */
     @GetMapping
     public String showDepositView(Model model, @RequestParam(name="error", required=false) String error) {
         if (error != null) {
-            model.addAttribute("error", "There's been in the deposit feature." );
+            model.addAttribute("error", "There's been an error in the deposit feature." );
         }
         return "deposit.jsp";
     }
 
+    /**
+     * Deposit.
+     *
+     * @param model  the model
+     * @param amount the amount
+     * @return the string
+     */
     @PostMapping
     public String deposit(Model model, @RequestParam(name="amount") BigDecimal amount) {
-        User currentUser = getCurrentUser(userService);
+        User currentUser = userDetailsService.getCurrentUser(userService);
         if (currentUser != null) {
             Account acc = accountService.getAccountByOwnerId(currentUser.getId());
             if (acc != null && amount != null && amount.compareTo(BigDecimal.ZERO) > 0) {
@@ -73,19 +101,10 @@ public class DepositController {
                 httpSession.setAttribute("transactions", newTransactions);
                 httpSession.setAttribute("balance", formatBigDecimalAsCurrency(updatedAcc.getBalance(), updatedAcc.getCurrency()));
             } else {
+                assert acc != null;
                 throw new RuntimeException("Account not found with id: " + acc.getId());
             }
         }
         return "deposit.jsp";
-    }
-
-
-    public User getCurrentUser(UserService userService) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            return userService.getUserByUsername(username);
-        }
-        return null;
     }
 }

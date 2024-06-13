@@ -68,6 +68,13 @@ public class Utils {
         return NumberFormat.getCurrencyInstance(Objects.equals(currency.getSymbol(), "USD") ? Locale.US : null).format(bigDecimal);
     }
 
+    /**
+     * Format transactions list.
+     *
+     * @param transactions the transactions
+     * @param currentUser  the current user
+     * @return the list
+     */
     public static List<TransactionItem> formatTransactions(Iterable<Transaction> transactions, User currentUser) {
         if (transactions.iterator().hasNext()) {
             List<TransactionItem> formattedTr = new ArrayList<>();

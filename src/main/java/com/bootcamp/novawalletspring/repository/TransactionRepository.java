@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Transaction repository.
+ */
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 
@@ -22,6 +24,12 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
     @Nonnull
     Optional<Transaction> findById(@Nonnull Integer id);
 
+    /**
+     * Find all by user id iterable.
+     *
+     * @param id the id
+     * @return the iterable
+     */
     @Query("SELECT transaction FROM Transaction transaction WHERE transaction.receiverUser.id = :id OR transaction.senderUser.id = :id ORDER BY transaction.creationDate DESC")
     Iterable<Transaction> findAllByUserId(Integer id);
 

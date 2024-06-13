@@ -10,12 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * The type Contact service.
+ */
 @Service
 @CommonsLog
 public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
 
+    /**
+     * Instantiates a new Contact service.
+     *
+     * @param contactRepository the contact repository
+     */
     public ContactServiceImpl(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }

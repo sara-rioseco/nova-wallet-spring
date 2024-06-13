@@ -2,16 +2,15 @@ package com.bootcamp.novawalletspring.entity;
 
 import com.bootcamp.novawalletspring.model.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
+/**
+ * The type User.
+ */
 @Data
 @Entity
 @Table(name = "users")

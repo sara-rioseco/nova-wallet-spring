@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The interface Contact repository.
+ */
 @Repository
 public interface ContactRepository extends CrudRepository<Contact, Integer> {
 
@@ -22,6 +25,12 @@ public interface ContactRepository extends CrudRepository<Contact, Integer> {
     @Nonnull
     Optional<Contact> findById(@Nonnull Integer id);
 
+    /**
+     * Find contact user by contact id user.
+     *
+     * @param id the id
+     * @return the user
+     */
     @Query("SELECT c.contactUser FROM Contact c WHERE c.id = :id")
     User findContactUserByContactId(int id);
 
@@ -33,6 +42,12 @@ public interface ContactRepository extends CrudRepository<Contact, Integer> {
     Iterable<Contact> findAll();
 
 
+    /**
+     * Find all by owner id iterable.
+     *
+     * @param ownerId the owner id
+     * @return the iterable
+     */
     @Query("SELECT c FROM Contact c WHERE c.ownerUser.id = :ownerId")
     Iterable<Contact> findAllByOwnerId(int ownerId);
 

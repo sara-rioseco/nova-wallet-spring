@@ -3,8 +3,9 @@ package com.bootcamp.novawalletspring.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
+/**
+ * The type Transaction item.
+ */
 @NoArgsConstructor
 @Data
 public class TransactionItem {

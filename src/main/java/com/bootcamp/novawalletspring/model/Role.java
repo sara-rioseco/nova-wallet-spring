@@ -1,5 +1,15 @@
 package com.bootcamp.novawalletspring.model;
 
+/**
+ * The enum Role.
+ */
 public enum Role {
-    ROLE_ADMIN, ROLE_USER
+    /**
+     * Role admin role.
+     */
+    ROLE_ADMIN,
+    /**
+     * Role user role.
+     */
+    ROLE_USER
 }

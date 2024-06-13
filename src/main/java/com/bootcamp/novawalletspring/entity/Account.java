@@ -7,8 +7,10 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
 
+/**
+ * The type Account.
+ */
 @Data
 @Entity
 @Table(name = "accounts")

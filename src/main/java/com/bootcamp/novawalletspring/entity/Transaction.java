@@ -3,13 +3,14 @@ package com.bootcamp.novawalletspring.entity;
 import com.bootcamp.novawalletspring.model.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
 
+/**
+ * The type Transaction.
+ */
 @Data
 @Entity
 @Table(name = "transactions")
