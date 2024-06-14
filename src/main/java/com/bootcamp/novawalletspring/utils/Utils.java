@@ -65,7 +65,7 @@ public class Utils {
      * @return the string
      */
     public static String formatBigDecimalAsCurrency(BigDecimal bigDecimal, Currency currency){
-        return NumberFormat.getCurrencyInstance(Objects.equals(currency.getSymbol(), "USD") ? Locale.US : null).format(bigDecimal);
+        return NumberFormat.getCurrencyInstance(Objects.equals(currency.getSymbol(), "USD") ? Locale.US : Objects.equals(currency.getSymbol(), "EUR") ? Locale.ITALY : null).format(bigDecimal);
     }
 
     /**
